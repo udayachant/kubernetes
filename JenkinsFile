@@ -11,7 +11,7 @@ pipeline {
             sh 'chmod +x kubectl'
             sh 'mv kubectl /usr/local/bin/'
             //withKubeConfig([credentialsId: 'kubecred1'])
-            withKubeConfig(credentialsId: 'kubecred', clusterName: 'democluster', namespace: 'default', serverUrl: 'https://FDACEAAA4F8716D1A6F2CFA67161072F.sk1.ap-southeast-1.eks.amazonaws.com') {
+            withKubeConfig(credentialsId: 'kubecred', clusterName: 'democluster', namespace: 'default', serverUrl: 'https://98C0127D356C6BF7EC59C8645DB4C189.gr7.ap-southeast-1.eks.amazonaws.com') {
                 sh 'kubectl get nodes'
                 sh 'kubectl apply -f 2048game.yaml'
                 sh 'kubectl apply -f 2048service.yaml'
