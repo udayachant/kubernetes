@@ -1,0 +1,32 @@
+pipeline {
+  agent {
+    any
+  }
+   
+  stages {   
+    stage('Deploy in Kubernetes') {
+    steps {
+        script {
+            sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
+            sh 'chmod +x kubectl'
+            sh 'mv kubectl /usr/local/bin/'
+            //withKubeConfig([credentialsId: 'kubecred1'])
+            withKubeConfig(credentialsId: 'kubecred', clusterName: 'democluster', namespace: 'default', serverUrl: 'https://FDACEAAA4F8716D1A6F2CFA67161072F.sk1.ap-southeast-1.eks.amazonaws.com') {
+                sh 'kubectl get nodes'
+                sh 'kubectl apply -f 2048game.yaml'
+                sh 'kubectl apply -f 2048service.yaml'
+                sh 'kubectl apply -f apache.yaml'
+                sh 'kubectl apply -f apacheservice.yaml'
+                sh 'kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml'
+                sh 'kubectl apply -f certissuer.yaml'
+                sh 'kubectl apply -f gameingress.yaml'
+
+
+                // Add your Kubernetes deployment steps here
+                // kubecred passsed above is the secret of serviceaccount created
+            }
+        }
+    }
+}
+  }  
+}
