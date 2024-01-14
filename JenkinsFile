@@ -10,13 +10,13 @@ pipeline {
             //withKubeConfig([credentialsId: 'kubecred1'])
             withKubeConfig(credentialsId: 'kubecred', clusterName: 'democluster', namespace: 'default', serverUrl: 'https://98C0127D356C6BF7EC59C8645DB4C189.gr7.ap-southeast-1.eks.amazonaws.com') {
                 sh 'kubectl get nodes'
-                sh 'kubectl apply -f 2048game.yaml'
-                sh 'kubectl apply -f 2048service.yaml'
-                sh 'kubectl apply -f apache.yaml'
-                sh 'kubectl apply -f apacheservice.yaml'
+                sh 'kubectl apply -f manifest/2048game.yaml'
+                sh 'kubectl apply -f manifest/2048service.yaml'
+                sh 'kubectl apply -f manifest/apache.yaml'
+                sh 'kubectl apply -f manifest/apacheservice.yaml'
                 sh 'kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml'
-                sh 'kubectl apply -f certissuer.yaml'
-                sh 'kubectl apply -f gameingress.yaml'
+                sh 'kubectl apply -f manifest/certissuer.yaml'
+                sh 'kubectl apply -f manifest/gameingress.yaml'
 
 
                 // Add your Kubernetes deployment steps here
