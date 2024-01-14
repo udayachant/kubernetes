@@ -10,6 +10,7 @@ pipeline {
             //withKubeConfig([credentialsId: 'kubecred1'])
             withKubeConfig(credentialsId: 'kubecred', clusterName: 'democluster', namespace: 'default', serverUrl: 'https://98C0127D356C6BF7EC59C8645DB4C189.gr7.ap-southeast-1.eks.amazonaws.com') {
                 sh 'kubectl get nodes'
+                dir('kubernetes/manifest') {
                 sh 'kubectl apply -f manifest/2048game.yaml'
                 sh 'kubectl apply -f manifest/2048service.yaml'
                 sh 'kubectl apply -f manifest/apache.yaml'
@@ -17,7 +18,7 @@ pipeline {
                 sh 'kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml'
                 sh 'kubectl apply -f manifest/certissuer.yaml'
                 sh 'kubectl apply -f manifest/gameingress.yaml'
-
+               }
 
                 // Add your Kubernetes deployment steps here
                 // kubecred passsed above is the secret of serviceaccount created
